@@ -6,9 +6,9 @@
   <!-- iPad Home Screen Web App (PWA) Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="나만의 독서도우미" />
+  <meta name="apple-mobile-web-app-title" content="나만의 조용한 독서생활" />
   <meta name="theme-color" content="#FFFDF9" />
-  <title>나만의 귀여운 독서생활 도우미 - My Cozy Reading Mate (iPad Edition)</title>
+  <title>나만의 조용한 독서생활 - My Quiet Reading Life</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Jua & Gowun Dodum -->
@@ -119,10 +119,10 @@
             <span class="text-3xl animate-float inline-block">🧸</span>
             <div>
               <h1 class="font-title text-2xl sm:text-3xl text-cocoa tracking-wide leading-none">
-                나만의 귀여운 독서생활
+                나만의 조용한 독서생활
               </h1>
-              <p class="text-xs sm:text-sm text-mocha mt-1">
-                My Cozy Reading Mate ✨ iPad Wide Diary
+              <p class="text-xs sm:text-sm text-mocha mt-1 font-bold tracking-wide">
+                My Quiet Reading Life ✨
               </p>
             </div>
           </div>
@@ -214,51 +214,63 @@
     <!-- Main Content Views -->
     <main class="flex-1 pt-6 space-y-6">
 
-      <!-- TAB 1: 📖 읽는 중 (iPad Wide Dashboard: Calendar + 2-Column Reading Cards) -->
+      <!-- TAB 1: 📖 읽는 중 (iPad Wide Dashboard: Summary + Permanent Calendar + 2-Column Reading Cards) -->
       <section id="tab-reading" class="space-y-6 animate-pop">
 
-        <!-- Quick Summary Pill Bar -->
-        <div class="grid grid-cols-3 gap-4">
-          <div class="bg-coral-light/50 border border-coral-light rounded-2xl p-4 flex items-center justify-between">
-            <div>
-              <p class="text-xs sm:text-sm text-mocha font-bold">현재 읽는 중인 책</p>
-              <p id="statReadingCount" class="font-title text-xl sm:text-2xl text-coral-dark mt-0.5">0권</p>
+        <!-- Upgraded Top Summary Bar: <현재 읽고 있는 책> (Title Badges) + <누적 완독 횟수> -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <!-- <현재 읽고 있는 책> Title Badges List Card (8 cols on iPad Landscape) -->
+          <div class="lg:col-span-8 bg-coral-light/45 border border-coral-light rounded-3xl p-4 sm:px-5 flex flex-col justify-between gap-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">📖</span>
+                <span class="font-title text-base sm:text-lg text-cocoa">현재 읽고 있는 책</span>
+                <span id="statReadingCountBadge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-white text-coral-dark border border-coral-light">
+                  0권
+                </span>
+              </div>
+              <span class="text-[11px] text-mocha">뱃지를 터치하면 진도 카드로 이동해요</span>
             </div>
-            <span class="text-2xl sm:text-3xl">📖</span>
+            <div id="statReadingTitlesList" class="flex flex-wrap items-center gap-2 pt-0.5">
+              <!-- Populated dynamically with cute book title badges -->
+            </div>
           </div>
-          <div class="bg-mint-light/60 border border-mint-light rounded-2xl p-4 flex items-center justify-between">
+
+          <!-- <누적 완독 횟수> Summary Card (4 cols on iPad Landscape) -->
+          <div class="lg:col-span-4 bg-mint-light/60 border border-mint-light rounded-3xl p-4 sm:px-5 flex items-center justify-between">
             <div>
-              <p class="text-xs sm:text-sm text-mocha font-bold">누적 완독 횟수</p>
-              <p id="statTotalCompletedRounds" class="font-title text-xl sm:text-2xl text-mint-dark mt-0.5">0회</p>
+              <p class="font-title text-base sm:text-lg text-cocoa flex items-center gap-1.5">
+                <span>🏅</span>
+                <span>누적 완독 횟수</span>
+              </p>
+              <div class="flex items-baseline gap-2 mt-1">
+                <p id="statTotalCompletedRounds" class="font-title text-2xl sm:text-3xl text-mint-dark">0회</p>
+                <span id="statCompletedBooksSub" class="text-xs font-bold text-mocha">(완독 도서 0권 · 다회독 0권)</span>
+              </div>
             </div>
-            <span class="text-2xl sm:text-3xl">🏅</span>
-          </div>
-          <div class="bg-butter-light/70 border border-butter-light rounded-2xl p-4 flex items-center justify-between">
-            <div>
-              <p class="text-xs sm:text-sm text-mocha font-bold">다회독(2회+) 도서</p>
-              <p id="statMultiReadCount" class="font-title text-xl sm:text-2xl text-butter-dark mt-0.5">0권</p>
+            <div class="w-12 h-12 rounded-2xl bg-white/80 flex items-center justify-center text-2xl shadow-xs shrink-0">
+              🏆
             </div>
-            <span class="text-2xl sm:text-3xl">🔁</span>
           </div>
         </div>
 
-        <!-- Google Calendar Style Reading Status Calendar (Wide iPad Gantt Board) -->
+        <!-- Google Calendar Style Reading Status Calendar (Preserves both Reading & Completed Books!) -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-[#EDE3D4] shadow-sm space-y-4">
           <!-- Calendar Title & Month Navigation Header -->
           <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-2.5">
               <span class="text-2xl">🗓️</span>
               <div>
-                <h2 class="font-title text-lg sm:text-xl text-cocoa leading-none">독서 현황 캘린더</h2>
+                <h2 class="font-title text-lg sm:text-xl text-cocoa leading-none">독서 현황 & 발자취 캘린더</h2>
                 <p class="text-xs text-mocha mt-1">
-                  현재 <b>읽는 중인 책</b>만 시작일~오늘까지 파스텔 가로 띠로 연결되며, 완독 시 즉시 사라집니다.
+                  <b>📖 읽는 중인 책</b>(시작일~오늘)과 <b>✅ 완독한 책</b>(시작일~완독일)이 모두 보존되어 언제든 추억할 수 있어요.
                 </p>
               </div>
             </div>
 
             <div class="flex items-center gap-2">
               <span id="calendarSlotCountBadge" class="hidden sm:inline-block text-xs font-bold px-3 py-1.5 rounded-full bg-cream border border-[#EFE7D8] text-coral-dark mr-1">
-                읽는 중 0권
+                이달의 기록 0건
               </span>
               <button
                 onclick="changeCalendarMonth(-1)"
@@ -297,19 +309,19 @@
             <div class="text-xs sm:text-sm font-bold text-[#5B8DEF]">토 (SAT)</div>
           </div>
 
-          <!-- Calendar Weeks Container (Day cell min-h-[136px] + 4 h-6 tracks per week) -->
+          <!-- Calendar Weeks Container (Day cell min-h-[138px] + 4 h-6 tracks per week) -->
           <div id="readingCalendarGrid" class="divide-y divide-[#F1E9DC] border border-[#EFE7D8] rounded-2xl overflow-hidden bg-cream/30"></div>
         </div>
 
         <!-- Currently Reading Books Section (2-Column Grid on iPad) -->
         <div class="space-y-4 pt-2">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-wrap gap-2">
             <h2 class="font-title text-xl text-cocoa flex items-center gap-2">
               <span>📖</span>
               <span>지금 읽고 있는 책 진도 카드</span>
             </h2>
             <span id="readingSubLabel" class="text-xs sm:text-sm text-mocha font-bold">
-              캘린더의 가로 띠를 터치하면 해당 카드로 바로 이동해요
+              진도표 위 역삼각형(▼)으로 오늘까지 읽어야 할 권장 페이스를 확인하세요!
             </span>
           </div>
 
@@ -318,33 +330,76 @@
         </div>
       </section>
 
-      <!-- TAB 2: 📚 내 책장 (My Bookshelf - 2~3 Column Responsive Grid on iPad) -->
+      <!-- TAB 2: 📚 내 책장 (My Bookshelf - Sorting & Filtering + 2~3 Column Grid) -->
       <section id="tab-bookshelf" class="space-y-5 hidden animate-pop">
-        <!-- Search & Filter Controls -->
-        <div class="bg-oat/70 p-4 sm:p-5 rounded-3xl border border-[#EAE2D3] flex flex-col md:flex-row md:items-center justify-between gap-3.5">
-          <div class="relative flex-1">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-base">🔍</span>
-            <input
-              id="bookshelfSearchInput"
-              type="text"
-              oninput="renderBookshelfTab()"
-              placeholder="책 제목, 저자, 회독 메모 검색..."
-              class="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-white border border-[#E5DEC9] text-sm focus:outline-none focus:border-coral"
-            />
+        <!-- Search, Filter & Sort Controls -->
+        <div class="bg-oat/70 p-4 sm:p-5 rounded-3xl border border-[#EAE2D3] space-y-3.5">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <!-- Search Input -->
+            <div class="relative flex-1">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-base">🔍</span>
+              <input
+                id="bookshelfSearchInput"
+                type="text"
+                oninput="renderBookshelfTab()"
+                placeholder="책 제목, 저자, 회독 메모 검색..."
+                class="w-full pl-11 pr-4 py-2.5 rounded-2xl bg-white border border-[#E5DEC9] text-sm focus:outline-none focus:border-coral"
+              />
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex gap-2 overflow-x-auto pb-0.5">
+              <button onclick="setBookshelfFilter('all')" id="filter-btn-all" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
+                전체 도서
+              </button>
+              <button onclick="setBookshelfFilter('reading')" id="filter-btn-reading" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
+                📖 읽는 중
+              </button>
+              <button onclick="setBookshelfFilter('completed')" id="filter-btn-completed" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
+                🏅 완독 경험
+              </button>
+              <button onclick="setBookshelfFilter('multiread')" id="filter-btn-multiread" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
+                🔁 2회독 이상
+              </button>
+            </div>
           </div>
-          <div class="flex gap-2 overflow-x-auto pb-0.5">
-            <button onclick="setBookshelfFilter('all')" id="filter-btn-all" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
-              전체 도서
-            </button>
-            <button onclick="setBookshelfFilter('reading')" id="filter-btn-reading" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
-              📖 읽는 중
-            </button>
-            <button onclick="setBookshelfFilter('completed')" id="filter-btn-completed" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
-              🏅 완독 경험
-            </button>
-            <button onclick="setBookshelfFilter('multiread')" id="filter-btn-multiread" class="px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0">
-              🔁 2회독 이상
-            </button>
+
+          <!-- Sorting Options Bar (4 Core Sort Criteria) -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#E5DEC9]/80">
+            <span class="text-xs font-bold text-mocha flex items-center gap-1.5">
+              <span>🔃</span>
+              <span>정렬 기준:</span>
+            </span>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button
+                onclick="setBookshelfSort('purchaseDate')"
+                id="sort-btn-purchaseDate"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition"
+              >
+                📅 구매 일자 순
+              </button>
+              <button
+                onclick="setBookshelfSort('firstCompletedDate')"
+                id="sort-btn-firstCompletedDate"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition"
+              >
+                🏁 첫 완독 일자 순
+              </button>
+              <button
+                onclick="setBookshelfSort('authorName')"
+                id="sort-btn-authorName"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition"
+              >
+                ✍️ 저자 이름 순 (가나다)
+              </button>
+              <button
+                onclick="setBookshelfSort('completedCount')"
+                id="sort-btn-completedCount"
+                class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition"
+              >
+                👑 완독수 많은 순서
+              </button>
+            </div>
           </div>
         </div>
 
@@ -352,8 +407,43 @@
         <div id="bookshelfListContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
       </section>
 
-      <!-- TAB 3: 📊 독서통계 (Reading Statistics - 2-Column Dashboard on iPad) -->
+      <!-- TAB 3: 📊 독서통계 (Reading Statistics - Deduplicated 1-Book Default Toggle + 2-Column Dashboard) -->
       <section id="tab-stats" class="space-y-6 hidden animate-pop">
+
+        <!-- Counting Mode Switch Bar (Default: 📗 도서 기준 1권 인정) -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 border border-[#EDE5D8] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🧮</span>
+            <div>
+              <h2 class="font-title text-base sm:text-lg text-cocoa">독서 통계 카운팅 기준 설정</h2>
+              <p id="statsModeDescription" class="text-xs text-mocha mt-0.5">
+                한 권의 책을 여러 번(2~3회독) 읽었어도 중복 없이 <b>1권</b>으로만 깔끔하게 집계합니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-oat p-1.5 rounded-2xl border border-[#E2D9C8] flex items-center gap-1 shrink-0">
+            <button
+              type="button"
+              onclick="setStatsCountMode('unique_book')"
+              id="stats-mode-unique"
+              class="px-3.5 py-2 rounded-xl font-title text-xs sm:text-sm transition flex items-center gap-1.5"
+            >
+              <span>📗</span>
+              <span>도서 기준 (1권으로만 인정)</span>
+            </button>
+            <button
+              type="button"
+              onclick="setStatsCountMode('all_rounds')"
+              id="stats-mode-rounds"
+              class="px-3.5 py-2 rounded-xl font-title text-xs sm:text-sm transition flex items-center gap-1.5"
+            >
+              <span>🔁</span>
+              <span>누적 회독 기준 (다회독 합산)</span>
+            </button>
+          </div>
+        </div>
+
         <!-- 2-Column Split Dashboard on iPad -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
@@ -371,11 +461,11 @@
                   <p id="statsTotalBooks" class="font-title text-xl text-cocoa mt-1">0권</p>
                 </div>
                 <div class="bg-white/95 rounded-2xl p-3.5 border border-[#F0E9DF]">
-                  <p class="text-xs text-mocha">총 완독 횟수</p>
-                  <p id="statsTotalCompletions" class="font-title text-xl text-coral-dark mt-1">0회</p>
+                  <p id="statsTotalCompletionsLabel" class="text-xs text-mocha">완독 도서 수 (중복 제외)</p>
+                  <p id="statsTotalCompletions" class="font-title text-xl text-coral-dark mt-1">0권</p>
                 </div>
                 <div class="bg-white/95 rounded-2xl p-3.5 border border-[#F0E9DF]">
-                  <p class="text-xs text-mocha">읽은 총 페이지</p>
+                  <p id="statsTotalPagesLabel" class="text-xs text-mocha">읽은 총 페이지</p>
                   <p id="statsTotalPages" class="font-title text-xl text-mint-dark mt-1">0쪽</p>
                 </div>
                 <div class="bg-white/95 rounded-2xl p-3.5 border border-[#F0E9DF]">
@@ -403,7 +493,7 @@
               <div class="bg-mint-light/50 border border-mint-light rounded-2xl p-4 flex items-center justify-between">
                 <div>
                   <p id="statsYearSummaryTitle" class="text-xs sm:text-sm text-mocha font-bold">2026년 완독 성과</p>
-                  <p id="statsYearSummaryCount" class="font-title text-xl text-mint-dark mt-0.5">총 0회 완독 (0쪽)</p>
+                  <p id="statsYearSummaryCount" class="font-title text-xl text-mint-dark mt-0.5">총 0권 완독 (0쪽)</p>
                 </div>
                 <span class="text-4xl">🌿</span>
               </div>
@@ -485,7 +575,7 @@
               <div>
                 <h2 class="font-title text-lg text-cocoa">샘플 데이터 & 초기화</h2>
                 <p class="text-xs sm:text-sm text-mocha mt-1 leading-relaxed">
-                  다회독(1~3회독) 및 캘린더 연속 가로 띠 예시가 포함된 초기 샘플 데이터를 불러오거나 빈 책장으로 초기화합니다.
+                  완독 목표일(페이스 마커), 다회독(1~3회독), 캘린더 완독/진행 연속 띠 예시가 포함된 초기 샘플 데이터를 불러오거나 초기화합니다.
                 </p>
               </div>
             </div>
@@ -515,7 +605,7 @@
           <div class="space-y-1">
             <span class="font-title text-base text-cocoa">🔍 현재 저장소 상태 (`localStorage` & iPad 웹앱 지원)</span>
             <p class="text-xs sm:text-sm text-mocha leading-relaxed">
-              모든 책은 고유 ID와 기본 서지 정보, 그리고 회독별 상세 배열(<code class="bg-white px-1.5 py-0.5 rounded text-coral-dark">readings</code>)로 분리 저장되어 1회독부터 N회독까지 무제한 기록을 지원합니다. Safari 공유 버튼에서 <b>[홈 화면에 추가]</b>를 누르면 전체 화면 앱으로 즐길 수 있어요!
+              모든 책은 고유 ID와 기본 서지 정보, 그리고 회독별 상세 배열(<code class="bg-white px-1.5 py-0.5 rounded text-coral-dark">readings</code> - <code class="bg-white px-1 py-0.5 rounded">targetDate</code> 포함)로 분리 저장되어 1회독부터 N회독까지 무제한 기록을 지원합니다.
             </p>
           </div>
           <span id="storageSizeBadge" class="text-xs bg-white px-4 py-2 rounded-full text-mocha font-bold border border-[#E5DEC9] shrink-0 self-start sm:self-center">
@@ -526,7 +616,7 @@
 
     </main>
 
-    <!-- Bottom Floating Capsule Dock Bar (Convenient access even when scrolled down on iPad) -->
+    <!-- Bottom Floating Capsule Dock Bar -->
     <nav
       aria-label="하단 플로팅 도크 바"
       class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-lg bg-white/95 backdrop-blur-md border border-[#E5DAC8] px-3 py-2 z-30 rounded-full shadow-[0_8px_30px_rgba(74,63,53,0.12)]"
@@ -648,6 +738,18 @@
           </div>
         </div>
 
+        <!-- Target Completion Date Input -->
+        <div id="initialTargetDateWrapper">
+          <label class="block text-xs font-bold text-coral-dark mb-1">
+            🎯 1회독 완독 목표일 (진도표에 오늘의 권장 페이스 ▼ 표시)
+          </label>
+          <input
+            type="date"
+            id="formTargetDate"
+            class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-coral/60 text-xs sm:text-sm focus:outline-none focus:border-coral"
+          />
+        </div>
+
         <div id="initialMemoWrapper">
           <label class="block text-xs font-bold text-mocha mb-1">첫 독서 다짐 / 메모 (선택)</label>
           <textarea
@@ -702,7 +804,7 @@
     /********************************************************************
      * 1. CONSTANTS, EMOJIS, SLOT COLORS & MOTIVATION QUOTES
      ********************************************************************/
-    const STORAGE_KEY = 'cozy_reading_mate_books_v2';
+    const STORAGE_KEY = 'cozy_reading_mate_books_v3';
     const COVER_EMOJIS = ['📘', '📕', '📗', '📙', '📔', '🌸', '☕', '🧸', '🌙', '🍀', '🍋', '🐳'];
 
     // 4 Pastel Slot Colors for Google Calendar-style horizontal bars
@@ -741,7 +843,7 @@
     };
 
     /********************************************************************
-     * 2. DATE HELPERS & INITIAL SAMPLE DATA (With 3 Active Reading Books)
+     * 2. DATE & PACE CALCULATION HELPERS + INITIAL SAMPLE DATA
      ********************************************************************/
     function formatDateYMD(dateObj) {
       const yyyy = dateObj.getFullYear();
@@ -752,6 +854,53 @@
 
     function getTodayString() {
       return formatDateYMD(new Date());
+    }
+
+    function addDaysToDateStr(dateStr, daysToAdd) {
+      const parts = (dateStr || getTodayString()).split('-').map(Number);
+      const d = new Date(parts[0], (parts[1] || 1) - 1, parts[2] || 1);
+      d.setDate(d.getDate() + daysToAdd);
+      return formatDateYMD(d);
+    }
+
+    // Calculate day difference (endStr - startStr) in days
+    function diffDaysBetween(startStr, endStr) {
+      if (!startStr || !endStr) return 0;
+      const [sy, sm, sd] = startStr.split('-').map(Number);
+      const [ey, em, ed] = endStr.split('-').map(Number);
+      const utcStart = Date.UTC(sy, (sm || 1) - 1, sd || 1);
+      const utcEnd = Date.UTC(ey, (em || 1) - 1, ed || 1);
+      return Math.round((utcEnd - utcStart) / (1000 * 60 * 60 * 24));
+    }
+
+    /**
+     * Reading Pace Calculation Formula:
+     * - 총 목표 일수 = (targetDate - startDate) 일수 + 1 (최소 1일)
+     * - 경과 일수 = (오늘 날짜 - startDate) 일수 + 1 (0 이상 총 목표 일수 이하로 클램핑)
+     * - 권장 페이스(%) = Math.round((경과 일수 / 총 목표 일수) * 100)
+     * - 권장 페이지(p) = Math.round(totalPages * (권장 페이스(%) / 100))
+     */
+    function calculateReadingPace(startDateStr, targetDateStr, totalPages, currentPage) {
+      const total = Math.max(1, Number(totalPages) || 1);
+      const current = Math.min(total, Math.max(0, Number(currentPage) || 0));
+      if (!startDateStr || !targetDateStr) return null;
+
+      const todayStr = getTodayString();
+      const totalTargetDays = Math.max(1, diffDaysBetween(startDateStr, targetDateStr) + 1);
+      const rawElapsedDays = diffDaysBetween(startDateStr, todayStr) + 1;
+      const elapsedDays = Math.min(totalTargetDays, Math.max(0, rawElapsedDays));
+
+      const pacePercent = Math.min(100, Math.max(0, Math.round((elapsedDays / totalTargetDays) * 100)));
+      const pacePages = Math.min(total, Math.max(0, Math.round(total * (pacePercent / 100))));
+      const pageDiff = current - pacePages;
+
+      return {
+        totalTargetDays,
+        elapsedDays,
+        pacePercent,
+        pacePages,
+        pageDiff
+      };
     }
 
     function getSampleDateInCurrentMonth(dayNumber) {
@@ -765,13 +914,18 @@
 
     function getInitialSampleBooks() {
       const now = new Date();
+      const todayStr = formatDateYMD(now);
       const prevMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
       const prevYYYY = prevMonthDate.getFullYear();
       const prevMM = String(prevMonthDate.getMonth() + 1).padStart(2, '0');
 
       const startDay1 = getSampleDateInCurrentMonth(1);
-      const startDay3 = getSampleDateInCurrentMonth(Math.min(3, Math.max(1, now.getDate() - 2)));
-      const startDay5 = getSampleDateInCurrentMonth(Math.min(5, Math.max(1, now.getDate() - 1)));
+      const startDay3 = getSampleDateInCurrentMonth(Math.min(3, Math.max(1, now.getDate() - 3)));
+      const startDay4 = getSampleDateInCurrentMonth(Math.min(4, Math.max(1, now.getDate() - 2)));
+
+      // Completed early this month so permanent completed bar shows on current month calendar too!
+      const completedThisMonthStart = getSampleDateInCurrentMonth(1);
+      const completedThisMonthEnd = getSampleDateInCurrentMonth(Math.min(4, Math.max(1, now.getDate() - 1)));
 
       return [
         {
@@ -785,8 +939,9 @@
             {
               round: 1,
               status: 'completed',
-              startDate: `${prevYYYY}-${prevMM}-05`,
-              endDate: `${prevYYYY}-${prevMM}-20`,
+              startDate: `${prevYYYY}-${prevMM}-04`,
+              endDate: `${prevYYYY}-${prevMM}-18`,
+              targetDate: `${prevYYYY}-${prevMM}-20`,
               currentPage: 380,
               memo: '부를 대하는 태도와 복리의 마법을 다시 생각하게 해준 최고의 책!'
             },
@@ -795,7 +950,8 @@
               status: 'reading',
               startDate: startDay1,
               endDate: '',
-              currentPage: 195,
+              targetDate: addDaysToDateStr(todayStr, 7),
+              currentPage: 225,
               memo: '두 번째 읽으니 저자의 핵심 사례들이 더 명확하게 들어온다.'
             }
           ]
@@ -805,7 +961,7 @@
           title: '아주 작은 습관의 힘',
           author: '제임스 클리어',
           totalPages: 360,
-          purchaseDate: `${prevYYYY}-${prevMM}-25`,
+          purchaseDate: `${prevYYYY}-${prevMM}-22`,
           coverEmoji: '🍀',
           readings: [
             {
@@ -813,8 +969,9 @@
               status: 'reading',
               startDate: startDay3,
               endDate: '',
+              targetDate: addDaysToDateStr(todayStr, 4),
               currentPage: 310,
-              memo: '매일 1%씩 성장하는 시스템 만들기! 이제 마지막 챕터만 남았다.'
+              memo: '매일 1%씩 성장하는 시스템 만들기! 목표 페이스보다 앞서가는 중!'
             }
           ]
         },
@@ -829,9 +986,10 @@
             {
               round: 1,
               status: 'reading',
-              startDate: startDay5,
+              startDate: startDay4,
               endDate: '',
-              currentPage: 128,
+              targetDate: addDaysToDateStr(todayStr, 6),
+              currentPage: 110,
               memo: '협력하고 연결되는 다정함의 진화론적 힘을 배우는 중!'
             }
           ]
@@ -849,22 +1007,25 @@
               status: 'completed',
               startDate: '2026-08-15',
               endDate: '2026-08-24',
+              targetDate: '2026-08-25',
               currentPage: 268,
               memo: '따뜻한 옥수수수염차 같은 위로가 가득했던 소설. 마음이 몽글몽글해진다.'
             },
             {
               round: 2,
               status: 'completed',
-              startDate: '2026-09-10',
-              endDate: '2026-09-19',
+              startDate: `${prevYYYY}-${prevMM}-10`,
+              endDate: `${prevYYYY}-${prevMM}-19`,
+              targetDate: `${prevYYYY}-${prevMM}-20`,
               currentPage: 268,
               memo: '가을 바람 불 때 다시 읽으니 등장인물들의 대사가 한층 더 깊이 와닿았다.'
             },
             {
               round: 3,
               status: 'completed',
-              startDate: `${prevYYYY}-${prevMM}-12`,
-              endDate: `${prevYYYY}-${prevMM}-25`,
+              startDate: completedThisMonthStart,
+              endDate: completedThisMonthEnd,
+              targetDate: completedThisMonthEnd,
               currentPage: 268,
               memo: '3회독 달성! 힘들 때마다 꺼내 읽는 나만의 마음 처방전 같은 책.'
             }
@@ -883,14 +1044,16 @@
               status: 'completed',
               startDate: '2025-12-10',
               endDate: '2025-12-18',
+              targetDate: '2025-12-20',
               currentPage: 160,
               memo: '가장 중요한 건 눈에 보이지 않아. 연말에 읽어서 더 행복했던 동화.'
             },
             {
               round: 2,
               status: 'completed',
-              startDate: '2026-05-02',
-              endDate: '2026-05-06',
+              startDate: `${prevYYYY}-${prevMM}-21`,
+              endDate: `${prevYYYY}-${prevMM}-27`,
+              targetDate: `${prevYYYY}-${prevMM}-28`,
               currentPage: 160,
               memo: '어른이 되어 다시 읽는 여우와의 대화는 언제나 새롭다.'
             }
@@ -905,12 +1068,36 @@
     let books = [];
     let currentTab = 'reading';
     let bookshelfFilter = 'all';
+    let bookshelfSortBy = 'purchaseDate'; // 'purchaseDate' | 'firstCompletedDate' | 'authorName' | 'completedCount'
+    let bookshelfSortOrder = 'desc'; // 'desc' | 'asc'
+
     let selectedStatsYear = new Date().getFullYear().toString();
     let selectedStatsMonth = 'all'; // 'all' or '01'..'12'
+    let statsCountMode = 'unique_book'; // DEFAULT: 'unique_book' (1권으로만 인정) | 'all_rounds' (누적 회독 합산)
 
     // Calendar View State (Year & 0-indexed Month)
     let calendarViewYear = new Date().getFullYear();
     let calendarViewMonth = new Date().getMonth();
+
+    function normalizeBooksData(rawBooks) {
+      if (!Array.isArray(rawBooks)) return getInitialSampleBooks();
+      const todayStr = getTodayString();
+      return rawBooks.map(book => {
+        const readings = Array.isArray(book.readings)
+          ? book.readings.map(r => {
+              const sDate = r.startDate || book.purchaseDate || todayStr;
+              const defaultTarget = r.status === 'completed'
+                ? (r.endDate || addDaysToDateStr(sDate, 14))
+                : addDaysToDateStr(sDate, 14);
+              return {
+                ...r,
+                targetDate: r.targetDate || defaultTarget
+              };
+            })
+          : [];
+        return { ...book, readings };
+      });
+    }
 
     function loadBooksFromStorage() {
       try {
@@ -920,7 +1107,7 @@
           saveBooksToStorage();
         } else {
           const parsed = JSON.parse(raw);
-          books = Array.isArray(parsed) ? parsed : getInitialSampleBooks();
+          books = normalizeBooksData(parsed);
         }
       } catch (err) {
         console.error('Failed to load books from localStorage:', err);
@@ -998,7 +1185,7 @@
     }
 
     /********************************************************************
-     * 5. GOOGLE CALENDAR STYLE READING STATUS CALENDAR (iPad Wide Gantt)
+     * 5. GOOGLE CALENDAR STYLE READING CALENDAR (Preserves Completed & Reading!)
      ********************************************************************/
     function changeCalendarMonth(delta) {
       const next = new Date(calendarViewYear, calendarViewMonth + delta, 1);
@@ -1015,9 +1202,20 @@
       showToast('🗓️ 오늘 날짜가 있는 달로 이동했어요!');
     }
 
+    function onCalendarBarClick(bookId, status) {
+      if (status === 'reading') {
+        scrollToReadingCard(bookId);
+      } else {
+        openBookDetailModal(bookId);
+      }
+    }
+
     function scrollToReadingCard(bookId) {
       const cardEl = document.getElementById(`reading-card-${bookId}`);
-      if (!cardEl) return;
+      if (!cardEl) {
+        openBookDetailModal(bookId);
+        return;
+      }
       cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       cardEl.classList.remove('card-highlight-pulse');
       void cardEl.offsetWidth; // trigger reflow
@@ -1035,47 +1233,64 @@
 
       const todayStr = getTodayString();
 
-      // 1. Collect only books with status === 'reading' (up to 4 slots)
-      const activeReadings = [];
-      books.forEach(book => {
+      // Build weeks for the current calendarViewYear & calendarViewMonth
+      const firstDayOfMonth = new Date(calendarViewYear, calendarViewMonth, 1);
+      const lastDayOfMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0);
+
+      const startGridDate = new Date(firstDayOfMonth);
+      startGridDate.setDate(firstDayOfMonth.getDate() - firstDayOfMonth.getDay());
+
+      const endGridDate = new Date(lastDayOfMonth);
+      endGridDate.setDate(lastDayOfMonth.getDate() + (6 - lastDayOfMonth.getDay()));
+
+      const calendarRangeStartStr = formatDateYMD(startGridDate);
+      const calendarRangeEndStr = formatDateYMD(endGridDate);
+
+      // Collect ALL reading records (BOTH 'reading' and 'completed' permanently preserved!)
+      const allCalendarEvents = [];
+      books.forEach((book, bookIdx) => {
         (book.readings || []).forEach(r => {
-          if (r.status === 'reading') {
-            const startStr = r.startDate || todayStr;
-            const endStr = startStr > todayStr ? startStr : todayStr;
-            activeReadings.push({
+          const startStr = r.startDate || book.purchaseDate || todayStr;
+          let endStr = todayStr;
+          if (r.status === 'completed') {
+            endStr = r.endDate || startStr;
+          } else {
+            endStr = startStr > todayStr ? startStr : todayStr;
+          }
+          if (endStr < startStr) endStr = startStr;
+
+          // Include if it overlaps with the visible calendar grid range
+          if (endStr >= calendarRangeStartStr && startStr <= calendarRangeEndStr) {
+            allCalendarEvents.push({
+              id: `${book.id}_r${r.round}`,
               book,
               reading: r,
+              status: r.status,
               startStr,
-              endStr
+              endStr,
+              colorIdx: bookIdx
             });
           }
         });
       });
 
-      // Sort by startDate so slot assignment (Slot 0 ~ Slot 3) is deterministic
-      activeReadings.sort((a, b) => a.startStr.localeCompare(b.startStr));
-      const slottedReadings = activeReadings.slice(0, 4).map((item, idx) => ({
-        ...item,
-        slotIndex: idx,
-        style: CALENDAR_SLOT_STYLES[idx % CALENDAR_SLOT_STYLES.length]
-      }));
+      // Sort: active 'reading' first (so ongoing books stay in consistent top tracks), then by startDate
+      allCalendarEvents.sort((a, b) => {
+        if (a.status !== b.status) return a.status === 'reading' ? -1 : 1;
+        return a.startStr.localeCompare(b.startStr);
+      });
+
+      // Assign each event a consistent style color
+      allCalendarEvents.forEach((ev, idx) => {
+        ev.style = CALENDAR_SLOT_STYLES[idx % CALENDAR_SLOT_STYLES.length];
+      });
 
       const slotBadge = document.getElementById('calendarSlotCountBadge');
       if (slotBadge) {
-        slotBadge.textContent = `읽는 중 ${activeReadings.length}권 (최대 4슬롯 표시)`;
+        const readingCnt = allCalendarEvents.filter(e => e.status === 'reading').length;
+        const completedCnt = allCalendarEvents.filter(e => e.status === 'completed').length;
+        slotBadge.textContent = `진행 중 ${readingCnt}건 · 완독 보존 ${completedCnt}건`;
       }
-
-      // 2. Build weeks for the current calendarViewYear & calendarViewMonth
-      const firstDayOfMonth = new Date(calendarViewYear, calendarViewMonth, 1);
-      const lastDayOfMonth = new Date(calendarViewYear, calendarViewMonth + 1, 0);
-
-      // Start from Sunday of the first week
-      const startGridDate = new Date(firstDayOfMonth);
-      startGridDate.setDate(firstDayOfMonth.getDate() - firstDayOfMonth.getDay());
-
-      // End on Saturday of the last week
-      const endGridDate = new Date(lastDayOfMonth);
-      endGridDate.setDate(lastDayOfMonth.getDate() + (6 - lastDayOfMonth.getDay()));
 
       const weeks = [];
       let cursor = new Date(startGridDate);
@@ -1095,7 +1310,6 @@
         weeks.push(weekDays);
       }
 
-      // 3. Render each week with generous iPad cell height (min-h-[138px]) and 4 thick h-6 (24px) tracks
       const gridContainer = document.getElementById('readingCalendarGrid');
       if (!gridContainer) return;
 
@@ -1104,7 +1318,7 @@
           const weekStartStr = week[0].dateStr;
           const weekEndStr = week[6].dateStr;
 
-          // Day background & date number header cells (min-h-[138px] > 125px requirement)
+          // Day background & date number header cells (min-h-[138px])
           const dayCellsHtml = week
             .map(d => {
               const numColor = !d.isCurrentMonth
@@ -1129,16 +1343,15 @@
             })
             .join('');
 
-          // 4 Dedicated Horizontal Tracks (Slot 0 ~ Slot 3), each h-6 (24px) with larger legible text
+          // Filter events overlapping this week and place into 4 horizontal track slots (Slot 0 ~ Slot 3)
+          const weekEvents = allCalendarEvents
+            .filter(ev => !(ev.endStr < weekStartStr || ev.startStr > weekEndStr))
+            .slice(0, 4);
+
           const slotsHtml = [0, 1, 2, 3]
             .map(slotIdx => {
-              const slotItem = slottedReadings[slotIdx];
+              const slotItem = weekEvents[slotIdx];
               if (!slotItem) {
-                return `<div class="grid grid-cols-7 h-6"></div>`;
-              }
-
-              // Check if [slotItem.startStr, slotItem.endStr] overlaps with [weekStartStr, weekEndStr]
-              if (slotItem.endStr < weekStartStr || slotItem.startStr > weekEndStr) {
                 return `<div class="grid grid-cols-7 h-6"></div>`;
               }
 
@@ -1162,20 +1375,26 @@
                 isTrueEnd ? 'rounded-r-lg mr-1' : 'rounded-r-none'
               }`;
 
+              const isCompleted = slotItem.status === 'completed';
               const pct = Math.min(
                 100,
                 Math.round(((slotItem.reading.currentPage || 0) / Math.max(1, slotItem.book.totalPages)) * 100)
               );
-              const labelText = `${slotItem.book.coverEmoji || '📘'} ${slotItem.book.title} (${slotItem.reading.round}회독 · ${pct}%)`;
+
+              const labelText = isCompleted
+                ? `✅ ${slotItem.book.coverEmoji || '📘'} ${slotItem.book.title} (${slotItem.reading.round}회독 완독)`
+                : `${slotItem.book.coverEmoji || '📘'} ${slotItem.book.title} (${slotItem.reading.round}회독 · ${pct}%)`;
 
               return `
                 <div class="grid grid-cols-7 h-6 items-center pointer-events-none">
                   <button
                     type="button"
-                    onclick="scrollToReadingCard('${slotItem.book.id}')"
-                    title="${escapeHtml(labelText)} · 터치하면 아래 진도 카드로 이동해요"
+                    onclick="onCalendarBarClick('${slotItem.book.id}', '${slotItem.status}')"
+                    title="${escapeHtml(labelText)} (${slotItem.startStr} ~ ${slotItem.endStr})"
                     style="grid-column: ${gridColumnStart} / span ${colSpan}; background-color: ${slotItem.style.bg}; border-color: ${slotItem.style.border}; color: ${slotItem.style.text};"
-                    class="pointer-events-auto h-6 px-2.5 border text-xs sm:text-[13px] font-bold leading-none flex items-center truncate shadow-xs hover:brightness-95 active:scale-[0.99] transition ${roundClass}"
+                    class="pointer-events-auto h-6 px-2.5 border text-xs sm:text-[13px] font-bold leading-none flex items-center justify-between gap-1 truncate shadow-xs hover:brightness-95 active:scale-[0.99] transition ${roundClass} ${
+                      isCompleted ? 'opacity-90 border-dashed' : ''
+                    }"
                   >
                     <span class="truncate">${escapeHtml(labelText)}</span>
                   </button>
@@ -1243,17 +1462,19 @@
     }
 
     /********************************************************************
-     * 7. TAB 1: 📖 읽는 중 (2-COLUMN READING CARDS ON IPAD)
+     * 7. TAB 1: 📖 읽는 중 (SUMMARY TITLE TAGS + READING PACE ▼ MARKER)
      ********************************************************************/
     function renderReadingTab() {
       const activeItems = [];
       let totalCompletedRounds = 0;
+      let completedUniqueBooksCount = 0;
       let multiReadBooksCount = 0;
 
       books.forEach(book => {
         const readings = book.readings || [];
         const completedInBook = readings.filter(r => r.status === 'completed').length;
         totalCompletedRounds += completedInBook;
+        if (completedInBook >= 1) completedUniqueBooksCount++;
         if (readings.length >= 2 || completedInBook >= 2) {
           multiReadBooksCount++;
         }
@@ -1264,16 +1485,38 @@
         });
       });
 
-      // Sort active items by startDate so order matches calendar slot order
       activeItems.sort((a, b) => (a.reading.startDate || '').localeCompare(b.reading.startDate || ''));
 
-      document.getElementById('statReadingCount').textContent = `${activeItems.length}권`;
+      // 1. Render <현재 읽고 있는 책> Title Badges & <누적 완독 횟수>
+      document.getElementById('statReadingCountBadge').textContent = `${activeItems.length}권`;
+      const titlesListEl = document.getElementById('statReadingTitlesList');
+      if (activeItems.length === 0) {
+        titlesListEl.innerHTML = `
+          <span class="text-xs text-mocha py-1">현재 읽고 있는 책이 없어요. 새 책을 등록하거나 다음 회독을 시작해 보세요 🌱</span>
+        `;
+      } else {
+        titlesListEl.innerHTML = activeItems
+          .map(({ book, reading }, idx) => {
+            const slotStyle = CALENDAR_SLOT_STYLES[idx % CALENDAR_SLOT_STYLES.length];
+            return `
+              <button
+                type="button"
+                onclick="scrollToReadingCard('${book.id}')"
+                style="background-color: ${slotStyle.bg}; border-color: ${slotStyle.border}; color: ${slotStyle.text};"
+                class="px-3 py-1.5 rounded-2xl border text-xs sm:text-sm font-bold shadow-xs hover:brightness-95 active:scale-95 transition flex items-center gap-1.5"
+              >
+                <span>${escapeHtml(book.coverEmoji || '📘')}</span>
+                <span>${escapeHtml(book.title)}</span>
+                <span class="text-[11px] opacity-80">(${reading.round}회독)</span>
+              </button>
+            `;
+          })
+          .join('');
+      }
+
       document.getElementById('statTotalCompletedRounds').textContent = `${totalCompletedRounds}회`;
-      document.getElementById('statMultiReadCount').textContent = `${multiReadBooksCount}권`;
-      document.getElementById('readingSubLabel').textContent =
-        activeItems.length > 0
-          ? `총 ${activeItems.length}권을 읽고 있어요 · 캘린더 가로 띠를 터치하면 카드로 이동해요`
-          : '새로운 독서를 시작해 보세요!';
+      document.getElementById('statCompletedBooksSub').textContent =
+        `(완독 도서 ${completedUniqueBooksCount}권 · 다회독 ${multiReadBooksCount}권)`;
 
       const container = document.getElementById('readingListContainer');
 
@@ -1313,6 +1556,50 @@
           const isHighProgress = percent >= 80;
           const slotStyle = CALENDAR_SLOT_STYLES[idx % CALENDAR_SLOT_STYLES.length];
 
+          // Calculate Reading Pace (권장 진도율 & 권장 페이지)
+          const targetDateVal = reading.targetDate || addDaysToDateStr(reading.startDate || getTodayString(), 14);
+          const paceInfo = calculateReadingPace(reading.startDate || getTodayString(), targetDateVal, total, current);
+
+          let paceMarkerHtml = '';
+          let paceFooterHtml = '';
+
+          if (paceInfo) {
+            // Keep bubble nicely inside card edges
+            const clampedLeft = Math.min(94, Math.max(6, paceInfo.pacePercent));
+            let feedbackBadge = '';
+            if (paceInfo.pageDiff > 0) {
+              feedbackBadge = `<span class="text-[11px] font-bold text-mint-dark bg-mint-light/80 px-2.5 py-0.5 rounded-full">🚀 목표보다 앞서가고 있어요! (+${paceInfo.pageDiff}p)</span>`;
+            } else if (paceInfo.pageDiff === 0) {
+              feedbackBadge = `<span class="text-[11px] font-bold text-butter-dark bg-butter-light px-2.5 py-0.5 rounded-full">✨ 오늘의 권장 페이스와 딱 맞아요!</span>`;
+            } else {
+              feedbackBadge = `<span class="text-[11px] font-bold text-coral-dark bg-coral-light/80 px-2.5 py-0.5 rounded-full">🐢 조금만 더 분발해 볼까요? (${paceInfo.pageDiff}p)</span>`;
+            }
+
+            paceMarkerHtml = `
+              <div class="relative w-full h-7 mt-1">
+                <div
+                  style="left: ${clampedLeft}%;"
+                  class="absolute -translate-x-1/2 top-0 flex flex-col items-center z-10 transition-all duration-300"
+                  title="목표일(${targetDateVal}) 기준 오늘까지 권장 진도: ${paceInfo.pacePages}p (${paceInfo.pacePercent}%)"
+                >
+                  <span class="px-2 py-0.5 rounded-md bg-cocoa text-white text-[10px] font-bold whitespace-nowrap shadow-xs leading-none">
+                    권장 ${paceInfo.pacePages}p (${paceInfo.pacePercent}%)
+                  </span>
+                  <span class="text-cocoa text-xs leading-none -mt-0.5 font-bold">▼</span>
+                </div>
+              </div>
+            `;
+
+            paceFooterHtml = `
+              <div class="flex flex-wrap items-center justify-between gap-1.5 pt-2 border-t border-[#E6DEC8]/70">
+                <span class="text-xs font-bold text-cocoa">
+                  🎯 오늘의 권장 페이스: <b class="text-coral-dark">${paceInfo.pacePages}p (${paceInfo.pacePercent}%)</b>
+                </span>
+                ${feedbackBadge}
+              </div>
+            `;
+          }
+
           return `
             <div
               id="reading-card-${book.id}"
@@ -1338,11 +1625,6 @@
                           ${reading.round >= 2 ? '🔁 ' : '✨ '}${reading.round}회독 진행 중
                         </span>
                         ${
-                          idx < 4
-                            ? `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-oat text-mocha">캘린더 ${idx + 1}층 트랙</span>`
-                            : ''
-                        }
-                        ${
                           isHighProgress
                             ? `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-butter-light text-butter-dark">🔥 완독 임박!</span>`
                             : ''
@@ -1355,7 +1637,7 @@
                         ${escapeHtml(book.title)}
                       </h3>
                       <p class="text-xs sm:text-sm text-mocha truncate">
-                        ${escapeHtml(book.author)} · 시작일 ${escapeHtml(reading.startDate || '-')}
+                        ${escapeHtml(book.author)} · 총 ${total}쪽
                       </p>
                     </div>
                   </div>
@@ -1367,17 +1649,44 @@
                   </button>
                 </div>
 
-                <!-- Progress Bar & Slider -->
-                <div class="bg-oat/60 p-4 rounded-2xl space-y-2.5">
+                <!-- Start Date & Target Completion Date Picker Row -->
+                <div class="grid grid-cols-2 gap-2.5 bg-cream p-3 rounded-2xl border border-[#EFE7D8]">
+                  <div>
+                    <label class="block text-[11px] font-bold text-mocha mb-1">📅 독서 시작일</label>
+                    <input
+                      type="date"
+                      value="${escapeHtml(reading.startDate || '')}"
+                      onchange="updateRoundField('${book.id}', ${reading.round}, 'startDate', this.value)"
+                      class="w-full px-2.5 py-1.5 rounded-xl bg-white border border-[#E2D9C8] text-xs font-bold text-cocoa focus:outline-none focus:border-coral"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-coral-dark mb-1">🎯 완독 목표일</label>
+                    <input
+                      type="date"
+                      value="${escapeHtml(targetDateVal)}"
+                      onchange="updateRoundField('${book.id}', ${reading.round}, 'targetDate', this.value)"
+                      class="w-full px-2.5 py-1.5 rounded-xl bg-white border border-coral/60 text-xs font-bold text-cocoa focus:outline-none focus:border-coral"
+                    />
+                  </div>
+                </div>
+
+                <!-- Visual Progress Bar + ▼ Reading Pace Marker + Slider -->
+                <div class="bg-oat/60 p-4 rounded-2xl space-y-2">
                   <div class="flex items-center justify-between text-xs sm:text-sm">
                     <span class="font-bold text-cocoa">
-                      현재 <span class="text-coral-dark font-title text-base">${current}</span> / ${total}쪽
+                      현재 읽은 페이지: <span class="text-coral-dark font-title text-base">${current}p</span> / ${total}p
                     </span>
                     <span class="font-title text-base ${isHighProgress ? 'text-coral-dark' : 'text-mint-dark'}">
                       ${percent}%
                     </span>
                   </div>
-                  <div class="w-full h-3.5 bg-white rounded-full overflow-hidden border border-[#E5DEC9]">
+
+                  <!-- Inverted Triangle (▼) Reading Pace Marker Above Bar -->
+                  ${paceMarkerHtml}
+
+                  <!-- Visual Progress Bar -->
+                  <div class="relative w-full h-4 bg-white rounded-full overflow-hidden border border-[#E5DEC9]">
                     <div
                       class="h-full rounded-full transition-all duration-300 ${
                         isHighProgress
@@ -1386,10 +1695,15 @@
                       }"
                       style="width: ${percent}%"
                     ></div>
+                    ${
+                      paceInfo
+                        ? `<div style="left: ${paceInfo.pacePercent}%;" class="absolute top-0 bottom-0 w-0.5 bg-cocoa/60 pointer-events-none"></div>`
+                        : ''
+                    }
                   </div>
 
                   <!-- Range Slider -->
-                  <div class="pt-1 flex items-center gap-2">
+                  <div class="pt-1.5 flex items-center gap-2">
                     <input
                       type="range"
                       min="0"
@@ -1407,19 +1721,19 @@
                         onclick="addReadingPages('${book.id}', ${reading.round}, -10)"
                         class="px-2.5 py-1.5 rounded-xl bg-white border border-[#E2D9C8] text-xs font-bold text-mocha hover:bg-cream active:scale-95"
                       >
-                        -10쪽
+                        -10p
                       </button>
                       <button
                         onclick="addReadingPages('${book.id}', ${reading.round}, 10)"
                         class="px-3 py-1.5 rounded-xl bg-white border border-[#E2D9C8] text-xs font-bold text-cocoa hover:bg-cream active:scale-95"
                       >
-                        +10쪽
+                        +10p
                       </button>
                       <button
                         onclick="addReadingPages('${book.id}', ${reading.round}, 30)"
                         class="px-3 py-1.5 rounded-xl bg-white border border-[#E2D9C8] text-xs font-bold text-cocoa hover:bg-cream active:scale-95"
                       >
-                        +30쪽
+                        +30p
                       </button>
                     </div>
 
@@ -1432,9 +1746,12 @@
                         onchange="updateReadingPageQuick('${book.id}', ${reading.round}, this.value)"
                         class="w-20 px-2.5 py-1.5 text-center text-xs sm:text-sm font-bold bg-white border border-[#E2D9C8] rounded-xl focus:outline-none focus:border-coral"
                       />
-                      <span class="text-xs sm:text-sm text-mocha font-bold">쪽</span>
+                      <span class="text-xs sm:text-sm text-mocha font-bold">p</span>
                     </div>
                   </div>
+
+                  <!-- Pace Status Feedback Footer -->
+                  ${paceFooterHtml}
                 </div>
 
                 <!-- Reading Memo Input -->
@@ -1536,15 +1853,33 @@
       saveBooksToStorage();
       renderAll();
       refreshMotivationBanner();
-      showToast(`🎉 축하해요! [${book.title}] ${roundNum}회독을 완독했어요!`);
+      showToast(`🎉 축하해요! [${book.title}] ${roundNum}회독 완독 기록이 캘린더에 영구 보존되었어요!`);
     }
 
     /********************************************************************
-     * 8. TAB 2: 📚 내 책장 (MY BOOKSHELF - 2~3 COLUMN GRID ON IPAD)
+     * 8. TAB 2: 📚 내 책장 (SORTING & FILTERING + 2~3 COLUMN GRID)
      ********************************************************************/
     function setBookshelfFilter(filter) {
       bookshelfFilter = filter;
       renderBookshelfTab();
+    }
+
+    function setBookshelfSort(sortKey) {
+      if (bookshelfSortBy === sortKey) {
+        // Toggle asc/desc when clicking the same sort button
+        bookshelfSortOrder = bookshelfSortOrder === 'desc' ? 'asc' : 'desc';
+      } else {
+        bookshelfSortBy = sortKey;
+        bookshelfSortOrder = sortKey === 'authorName' ? 'asc' : 'desc';
+      }
+      renderBookshelfTab();
+    }
+
+    function getFirstCompletedDate(book) {
+      const completedReadings = (book.readings || [])
+        .filter(r => r.status === 'completed' && r.endDate)
+        .sort((a, b) => a.round - b.round);
+      return completedReadings.length > 0 ? completedReadings[0].endDate : '';
     }
 
     function renderBookshelfTab() {
@@ -1562,6 +1897,27 @@
           btn.className = 'px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0 bg-coral text-white shadow-xs';
         } else {
           btn.className = 'px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shrink-0 bg-white text-mocha border border-[#E5DEC9] hover:bg-cream';
+        }
+      });
+
+      // Update Sort Buttons UI
+      const sortMeta = [
+        { id: 'purchaseDate', baseLabel: '📅 구매 일자 순' },
+        { id: 'firstCompletedDate', baseLabel: '🏁 첫 완독 일자 순' },
+        { id: 'authorName', baseLabel: '✍️ 저자 이름 순' },
+        { id: 'completedCount', baseLabel: '👑 완독수 많은 순서' }
+      ];
+
+      sortMeta.forEach(s => {
+        const btn = document.getElementById(`sort-btn-${s.id}`);
+        if (!btn) return;
+        if (bookshelfSortBy === s.id) {
+          const arrow = bookshelfSortOrder === 'desc' ? '↓' : '↑';
+          btn.textContent = `${s.baseLabel} ${arrow}`;
+          btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-cocoa text-white shadow-xs';
+        } else {
+          btn.textContent = s.baseLabel;
+          btn.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold transition bg-white text-mocha border border-[#E5DEC9] hover:bg-cream';
         }
       });
 
@@ -1586,6 +1942,44 @@
         return true;
       });
 
+      // Sort filteredBooks according to bookshelfSortBy & bookshelfSortOrder
+      filteredBooks.sort((a, b) => {
+        const dir = bookshelfSortOrder === 'asc' ? 1 : -1;
+
+        if (bookshelfSortBy === 'purchaseDate') {
+          const dateA = a.purchaseDate || '0000-00-00';
+          const dateB = b.purchaseDate || '0000-00-00';
+          return dateA.localeCompare(dateB) * dir;
+        }
+
+        if (bookshelfSortBy === 'firstCompletedDate') {
+          const firstA = getFirstCompletedDate(a);
+          const firstB = getFirstCompletedDate(b);
+          // Uncompleted books always placed at the bottom
+          if (!firstA && !firstB) return 0;
+          if (!firstA) return 1;
+          if (!firstB) return -1;
+          return firstA.localeCompare(firstB) * dir;
+        }
+
+        if (bookshelfSortBy === 'authorName') {
+          const authA = a.author || '';
+          const authB = b.author || '';
+          return authA.localeCompare(authB, 'ko') * dir;
+        }
+
+        if (bookshelfSortBy === 'completedCount') {
+          const countA = (a.readings || []).filter(r => r.status === 'completed').length;
+          const countB = (b.readings || []).filter(r => r.status === 'completed').length;
+          if (countA !== countB) {
+            return (countA - countB) * dir;
+          }
+          return (a.title || '').localeCompare(b.title || '', 'ko');
+        }
+
+        return 0;
+      });
+
       const container = document.getElementById('bookshelfListContainer');
 
       if (filteredBooks.length === 0) {
@@ -1605,11 +1999,12 @@
           const activeReading = readings.find(r => r.status === 'reading');
           const completedCount = readings.filter(r => r.status === 'completed').length;
           const maxRound = readings.length > 0 ? readings[readings.length - 1].round : 0;
+          const firstEndDate = getFirstCompletedDate(book);
 
           const roundBadgesHtml = readings
             .map(r => {
               if (r.status === 'completed') {
-                return `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-lg bg-mint-light text-mint-dark">🏅 ${r.round}회독 완독</span>`;
+                return `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-lg bg-mint-light text-mint-dark">🏅 ${r.round}회독 완독 (${escapeHtml(r.endDate || '-')})</span>`;
               }
               const pct = Math.round(((r.currentPage || 0) / Math.max(1, book.totalPages)) * 100);
               return `<span class="text-[11px] font-bold px-2.5 py-0.5 rounded-lg bg-coral-light text-coral-dark">📖 ${r.round}회독 중 (${pct}%)</span>`;
@@ -1626,7 +2021,7 @@
                     onclick="openBookDetailModal('${book.id}')"
                     class="cursor-pointer flex items-start gap-3 min-w-0 flex-1"
                   >
-                    <div class="w-13 h-13 w-12 h-12 rounded-2xl bg-oat flex items-center justify-center text-2xl shrink-0">
+                    <div class="w-12 h-12 rounded-2xl bg-oat flex items-center justify-center text-2xl shrink-0">
                       ${escapeHtml(book.coverEmoji || '📘')}
                     </div>
                     <div class="min-w-0 flex-1">
@@ -1639,7 +2034,10 @@
                       </div>
                       <h3 class="font-title text-base sm:text-lg text-cocoa truncate mt-0.5">${escapeHtml(book.title)}</h3>
                       <p class="text-xs text-mocha truncate">
-                        ${escapeHtml(book.author)} · ${book.totalPages}쪽 · 소장일 ${escapeHtml(book.purchaseDate || '-')}
+                        ${escapeHtml(book.author)} · ${book.totalPages}쪽
+                      </p>
+                      <p class="text-[11px] text-mocha/80 mt-0.5">
+                        구매일: ${escapeHtml(book.purchaseDate || '-')} ${firstEndDate ? `· 첫완독: ${escapeHtml(firstEndDate)}` : ''}
                       </p>
                     </div>
                   </div>
@@ -1720,11 +2118,13 @@
       const nextRound =
         book.readings.length > 0 ? Math.max(...book.readings.map(r => Number(r.round) || 0)) + 1 : 1;
 
+      const todayStr = getTodayString();
       book.readings.push({
         round: nextRound,
         status: 'reading',
-        startDate: getTodayString(),
+        startDate: todayStr,
         endDate: '',
+        targetDate: addDaysToDateStr(todayStr, 14),
         currentPage: 0,
         memo: ''
       });
@@ -1736,7 +2136,7 @@
     }
 
     /********************************************************************
-     * 9. BOOK DETAIL MODAL (View/Edit All Rounds & Book Info)
+     * 9. BOOK DETAIL MODAL (View/Edit All Rounds, TargetDate & Book Info)
      ********************************************************************/
     function openBookDetailModal(bookId) {
       const book = books.find(b => b.id === bookId);
@@ -1761,14 +2161,23 @@
                 </span>
               </div>
 
-              <div class="grid grid-cols-2 gap-2.5 pt-1">
+              <div class="grid grid-cols-3 gap-2 pt-1">
                 <div>
                   <label class="block text-[11px] text-mocha mb-0.5">시작일</label>
                   <input
                     type="date"
                     value="${escapeHtml(r.startDate || '')}"
                     onchange="updateRoundField('${book.id}', ${r.round}, 'startDate', this.value)"
-                    class="w-full px-2.5 py-1.5 rounded-xl bg-cream border border-[#E5DEC9] text-xs"
+                    class="w-full px-2 py-1.5 rounded-xl bg-cream border border-[#E5DEC9] text-xs"
+                  />
+                </div>
+                <div>
+                  <label class="block text-[11px] text-coral-dark font-bold mb-0.5">🎯 완독 목표일</label>
+                  <input
+                    type="date"
+                    value="${escapeHtml(r.targetDate || '')}"
+                    onchange="updateRoundField('${book.id}', ${r.round}, 'targetDate', this.value)"
+                    class="w-full px-2 py-1.5 rounded-xl bg-cream border border-coral/50 text-xs"
                   />
                 </div>
                 <div>
@@ -1777,7 +2186,7 @@
                     type="date"
                     value="${escapeHtml(r.endDate || '')}"
                     onchange="updateRoundField('${book.id}', ${r.round}, 'endDate', this.value)"
-                    class="w-full px-2.5 py-1.5 rounded-xl bg-cream border border-[#E5DEC9] text-xs"
+                    class="w-full px-2 py-1.5 rounded-xl bg-cream border border-[#E5DEC9] text-xs"
                   />
                 </div>
               </div>
@@ -1866,7 +2275,7 @@
       reading[field] = value;
       saveBooksToStorage();
       renderAll();
-      showToast('✨ 회독 기록이 업데이트되었어요!');
+      showToast('✨ 회독 일정 및 기록이 업데이트되었어요!');
     }
 
     function deleteBook(bookId) {
@@ -1883,29 +2292,59 @@
     }
 
     /********************************************************************
-     * 10. TAB 3: 📊 독서통계 (2-COLUMN DASHBOARD ON IPAD)
+     * 10. TAB 3: 📊 독서통계 ('1권으로만 카운팅' 기본값 & 누적 회독 전환)
      ********************************************************************/
+    function setStatsCountMode(mode) {
+      statsCountMode = mode;
+      renderStatsTab();
+    }
+
     function renderStatsTab() {
-      let totalCompletions = 0;
-      let totalPagesRead = 0;
+      const isUniqueMode = statsCountMode === 'unique_book';
+
+      // Update Mode Switch UI
+      const uniqueBtn = document.getElementById('stats-mode-unique');
+      const roundsBtn = document.getElementById('stats-mode-rounds');
+      const descEl = document.getElementById('statsModeDescription');
+
+      if (isUniqueMode) {
+        uniqueBtn.className = 'px-3.5 py-2 rounded-xl font-title text-xs sm:text-sm transition flex items-center gap-1.5 bg-white text-mint-dark shadow-xs border border-mint/40';
+        roundsBtn.className = 'px-3.5 py-2 rounded-xl font-title text-xs sm:text-sm transition flex items-center gap-1.5 text-mocha hover:text-cocoa';
+        descEl.innerHTML = '한 권의 책을 여러 번(2~3회독) 읽었어도 중복 없이 <b>1권</b>으로만 깔끔하게 집계합니다.';
+      } else {
+        roundsBtn.className = 'px-3.5 py-2 rounded-xl font-title text-xs sm:text-sm transition flex items-center gap-1.5 bg-white text-coral-dark shadow-xs border border-coral/40';
+        uniqueBtn.className = 'px-3.5 py-2 rounded-xl font-title text-xs sm:text-sm transition flex items-center gap-1.5 text-mocha hover:text-cocoa';
+        descEl.innerHTML = '다회독(2~3회독 이상)한 횟수를 모두 합산하여 <b>누적 완독 횟수</b> 기준으로 집계합니다.';
+      }
+
+      let totalCompletedRoundsAllTime = 0;
+      let totalUniqueCompletedBooksAllTime = 0;
+      let totalPagesUniqueMode = 0;
+      let totalPagesRoundsMode = 0;
       let maxRound = 0;
+
       const yearsSet = new Set([new Date().getFullYear().toString(), '2026', '2025']);
-      const completedRecords = [];
+      const allCompletedRoundRecords = [];
 
       books.forEach(book => {
         const pages = Number(book.totalPages) || 0;
-        (book.readings || []).forEach(r => {
+        const readings = book.readings || [];
+        let bookHasCompleted = false;
+
+        readings.forEach(r => {
           if (r.round > maxRound) maxRound = r.round;
 
           if (r.status === 'completed') {
-            totalCompletions++;
-            totalPagesRead += pages;
+            bookHasCompleted = true;
+            totalCompletedRoundsAllTime++;
+            totalPagesRoundsMode += pages;
+
             const dateStr = r.endDate || r.startDate || book.purchaseDate || '2026-01-01';
             const year = dateStr.slice(0, 4);
             const month = dateStr.slice(5, 7) || '01';
             if (/^\d{4}$/.test(year)) yearsSet.add(year);
 
-            completedRecords.push({
+            allCompletedRoundRecords.push({
               book,
               reading: r,
               dateStr,
@@ -1913,16 +2352,36 @@
               month
             });
           } else {
-            totalPagesRead += Math.min(pages, Number(r.currentPage) || 0);
+            totalPagesRoundsMode += Math.min(pages, Number(r.currentPage) || 0);
           }
         });
+
+        if (bookHasCompleted) {
+          totalUniqueCompletedBooksAllTime++;
+          totalPagesUniqueMode += pages;
+        } else {
+          const activeR = readings.find(r => r.status === 'reading');
+          if (activeR) {
+            totalPagesUniqueMode += Math.min(pages, Number(activeR.currentPage) || 0);
+          }
+        }
       });
 
       document.getElementById('statsTotalBooks').textContent = `${books.length}권`;
-      document.getElementById('statsTotalCompletions').textContent = `${totalCompletions}회`;
-      document.getElementById('statsTotalPages').textContent = `${totalPagesRead.toLocaleString()}쪽`;
+      if (isUniqueMode) {
+        document.getElementById('statsTotalCompletionsLabel').textContent = '완독 도서 수 (1권 인정)';
+        document.getElementById('statsTotalCompletions').textContent = `${totalUniqueCompletedBooksAllTime}권`;
+        document.getElementById('statsTotalPagesLabel').textContent = '읽은 페이지 (도서 기준)';
+        document.getElementById('statsTotalPages').textContent = `${totalPagesUniqueMode.toLocaleString()}쪽`;
+      } else {
+        document.getElementById('statsTotalCompletionsLabel').textContent = '총 완독 횟수 (N회독 합산)';
+        document.getElementById('statsTotalCompletions').textContent = `${totalCompletedRoundsAllTime}회`;
+        document.getElementById('statsTotalPagesLabel').textContent = '읽은 총 페이지 (N회독 합산)';
+        document.getElementById('statsTotalPages').textContent = `${totalPagesRoundsMode.toLocaleString()}쪽`;
+      }
       document.getElementById('statsMaxRound').textContent = `${maxRound}회독`;
 
+      // Populate Year Select
       const sortedYears = Array.from(yearsSet).sort((a, b) => b.localeCompare(a));
       if (!sortedYears.includes(selectedStatsYear)) {
         selectedStatsYear = sortedYears[0] || '2026';
@@ -1933,26 +2392,68 @@
         .map(y => `<option value="${y}" ${y === selectedStatsYear ? 'selected' : ''}>${y}년</option>`)
         .join('');
 
-      const yearRecords = completedRecords.filter(rec => rec.year === selectedStatsYear);
-      const yearPages = yearRecords.reduce((acc, rec) => acc + (Number(rec.book.totalPages) || 0), 0);
+      // Filter records for selected year
+      const yearRoundRecords = allCompletedRoundRecords.filter(rec => rec.year === selectedStatsYear);
 
-      document.getElementById('statsYearSummaryTitle').textContent = `${selectedStatsYear}년 완독 성과`;
-      document.getElementById('statsYearSummaryCount').textContent =
-        `총 ${yearRecords.length}회 완독 (${yearPages.toLocaleString()}쪽)`;
+      // Deduplicate by book for 'unique_book' mode within the selected year
+      const uniqueYearBooksMap = new Map();
+      yearRoundRecords.forEach(rec => {
+        const existing = uniqueYearBooksMap.get(rec.book.id);
+        if (!existing || rec.dateStr >= existing.latestDateStr) {
+          uniqueYearBooksMap.set(rec.book.id, {
+            book: rec.book,
+            latestReading: rec.reading,
+            latestDateStr: rec.dateStr,
+            latestMonth: rec.month,
+            completedRoundsInYear: (existing?.completedRoundsInYear || 0) + 1,
+            totalCompletedRoundsAllTime: (rec.book.readings || []).filter(r => r.status === 'completed').length
+          });
+        } else {
+          existing.completedRoundsInYear++;
+        }
+      });
+      const uniqueYearBookRecords = Array.from(uniqueYearBooksMap.values());
 
+      // Yearly summary banner
+      if (isUniqueMode) {
+        const yearUniquePages = uniqueYearBookRecords.reduce((acc, item) => acc + (Number(item.book.totalPages) || 0), 0);
+        document.getElementById('statsYearSummaryTitle').textContent = `${selectedStatsYear}년 완독 성과 (도서 기준 · 중복 제외)`;
+        document.getElementById('statsYearSummaryCount').textContent =
+          `총 ${uniqueYearBookRecords.length}권 완독 (${yearUniquePages.toLocaleString()}쪽)`;
+      } else {
+        const yearRoundsPages = yearRoundRecords.reduce((acc, rec) => acc + (Number(rec.book.totalPages) || 0), 0);
+        document.getElementById('statsYearSummaryTitle').textContent = `${selectedStatsYear}년 완독 성과 (누적 회독 합산)`;
+        document.getElementById('statsYearSummaryCount').textContent =
+          `총 ${yearRoundRecords.length}회 완독 (${yearRoundsPages.toLocaleString()}쪽)`;
+      }
+
+      // Monthly chart aggregation (01 ~ 12)
       const monthCounts = {};
       for (let m = 1; m <= 12; m++) {
         const key = String(m).padStart(2, '0');
         monthCounts[key] = 0;
       }
-      yearRecords.forEach(rec => {
-        if (monthCounts[rec.month] !== undefined) {
-          monthCounts[rec.month]++;
+
+      if (isUniqueMode) {
+        // Count unique books per month (if a book was completed in that month, count once)
+        for (let m = 1; m <= 12; m++) {
+          const mKey = String(m).padStart(2, '0');
+          const uniqueBookIdsInMonth = new Set(
+            yearRoundRecords.filter(r => r.month === mKey).map(r => r.book.id)
+          );
+          monthCounts[mKey] = uniqueBookIdsInMonth.size;
         }
-      });
+      } else {
+        yearRoundRecords.forEach(rec => {
+          if (monthCounts[rec.month] !== undefined) {
+            monthCounts[rec.month]++;
+          }
+        });
+      }
 
       const maxMonthCount = Math.max(1, ...Object.values(monthCounts));
       const chartContainer = document.getElementById('monthlyChartContainer');
+      const unitText = isUniqueMode ? '권' : '회';
 
       chartContainer.innerHTML = Object.keys(monthCounts)
         .map(mKey => {
@@ -1969,7 +2470,7 @@
               }"
             >
               <span class="text-[11px] font-bold ${count > 0 ? 'text-coral-dark' : 'text-mocha/60'}">
-                ${count}권
+                ${count}${unitText}
               </span>
               <div class="w-full h-16 flex items-end justify-center my-1.5">
                 <div
@@ -1987,57 +2488,128 @@
 
       const resetMonthBtn = document.getElementById('statsResetMonthBtn');
       const listTitle = document.getElementById('statsCompletedListTitle');
-
-      let displayRecords = yearRecords;
-      if (selectedStatsMonth !== 'all') {
-        displayRecords = yearRecords.filter(r => r.month === selectedStatsMonth);
-        listTitle.textContent = `📚 ${selectedStatsYear}년 ${parseInt(selectedStatsMonth, 10)}월 완독 (${displayRecords.length}건)`;
-        resetMonthBtn.classList.remove('hidden');
-      } else {
-        listTitle.textContent = `📚 ${selectedStatsYear}년 전체 완독 (${displayRecords.length}건)`;
-        resetMonthBtn.classList.add('hidden');
-      }
-
-      displayRecords.sort((a, b) => b.dateStr.localeCompare(a.dateStr));
-
       const listContainer = document.getElementById('statsCompletedListContainer');
-      if (displayRecords.length === 0) {
-        listContainer.innerHTML = `
-          <div class="bg-cream/60 rounded-2xl p-8 text-center border border-dashed border-[#DFD5C5]">
-            <p class="text-3xl mb-2">🍃</p>
-            <p class="text-xs sm:text-sm text-mocha">해당 기간에 완독한 기록이 아직 없어요.</p>
-          </div>
-        `;
-        return;
-      }
 
-      listContainer.innerHTML = displayRecords
-        .map(({ book, reading, dateStr }) => {
-          return `
-            <div
-              onclick="openBookDetailModal('${book.id}')"
-              class="cursor-pointer bg-cream/60 rounded-2xl p-3.5 border border-[#EDE3D4] shadow-xs flex items-center justify-between gap-3 hover:border-coral transition"
-            >
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="w-11 h-11 rounded-xl bg-white border border-[#EAE0D0] flex items-center justify-center text-2xl shrink-0">
-                  ${escapeHtml(book.coverEmoji || '📘')}
-                </div>
-                <div class="min-w-0">
-                  <div class="flex items-center gap-1.5">
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-mint-light text-mint-dark">
-                      🏅 ${reading.round}회독 완독
-                    </span>
-                    <span class="text-xs text-mocha">${escapeHtml(dateStr)}</span>
-                  </div>
-                  <h4 class="font-title text-sm sm:text-base text-cocoa truncate mt-0.5">${escapeHtml(book.title)}</h4>
-                  <p class="text-xs text-mocha truncate">${escapeHtml(reading.memo || `${book.author} · ${book.totalPages}쪽`)}</p>
-                </div>
-              </div>
-              <span class="text-xs font-bold text-mocha shrink-0">${book.totalPages}쪽 ›</span>
+      if (isUniqueMode) {
+        // Deduplicated 1-card-per-book list
+        let filteredUnique = uniqueYearBookRecords;
+        if (selectedStatsMonth !== 'all') {
+          const monthRoundRecords = yearRoundRecords.filter(r => r.month === selectedStatsMonth);
+          const monthBookMap = new Map();
+          monthRoundRecords.forEach(rec => {
+            const existing = monthBookMap.get(rec.book.id);
+            if (!existing || rec.dateStr >= existing.latestDateStr) {
+              monthBookMap.set(rec.book.id, {
+                book: rec.book,
+                latestReading: rec.reading,
+                latestDateStr: rec.dateStr,
+                totalCompletedRoundsAllTime: (rec.book.readings || []).filter(r => r.status === 'completed').length
+              });
+            }
+          });
+          filteredUnique = Array.from(monthBookMap.values());
+          listTitle.textContent = `📚 ${selectedStatsYear}년 ${parseInt(selectedStatsMonth, 10)}월 완독 (${filteredUnique.length}권)`;
+          resetMonthBtn.classList.remove('hidden');
+        } else {
+          listTitle.textContent = `📚 ${selectedStatsYear}년 전체 완독 (${filteredUnique.length}권)`;
+          resetMonthBtn.classList.add('hidden');
+        }
+
+        filteredUnique.sort((a, b) => b.latestDateStr.localeCompare(a.latestDateStr));
+
+        if (filteredUnique.length === 0) {
+          listContainer.innerHTML = `
+            <div class="bg-cream/60 rounded-2xl p-8 text-center border border-dashed border-[#DFD5C5]">
+              <p class="text-3xl mb-2">🍃</p>
+              <p class="text-xs sm:text-sm text-mocha">해당 기간에 완독한 도서가 아직 없어요.</p>
             </div>
           `;
-        })
-        .join('');
+          return;
+        }
+
+        listContainer.innerHTML = filteredUnique
+          .map(({ book, latestReading, latestDateStr, totalCompletedRoundsAllTime }) => {
+            return `
+              <div
+                onclick="openBookDetailModal('${book.id}')"
+                class="cursor-pointer bg-cream/60 rounded-2xl p-4 border border-[#EDE3D4] shadow-xs flex items-center justify-between gap-3 hover:border-coral transition"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-12 h-12 rounded-xl bg-white border border-[#EAE0D0] flex items-center justify-center text-2xl shrink-0">
+                    ${escapeHtml(book.coverEmoji || '📘')}
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-mint-light text-mint-dark">
+                        ✨ 총 ${totalCompletedRoundsAllTime}회독 완료
+                      </span>
+                      <span class="text-xs text-mocha">최근 완독일: ${escapeHtml(latestDateStr)}</span>
+                    </div>
+                    <h4 class="font-title text-base text-cocoa truncate mt-1">${escapeHtml(book.title)}</h4>
+                    <p class="text-xs text-mocha truncate">
+                      ${escapeHtml(latestReading.memo || `${book.author} · ${book.totalPages}쪽`)}
+                    </p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-coral-dark bg-white px-2.5 py-1 rounded-xl border border-[#EDE3D4] shrink-0">
+                  1권 인정 ›
+                </span>
+              </div>
+            `;
+          })
+          .join('');
+      } else {
+        // All Rounds Mode
+        let displayRecords = yearRoundRecords;
+        if (selectedStatsMonth !== 'all') {
+          displayRecords = yearRoundRecords.filter(r => r.month === selectedStatsMonth);
+          listTitle.textContent = `📚 ${selectedStatsYear}년 ${parseInt(selectedStatsMonth, 10)}월 완독 (${displayRecords.length}회)`;
+          resetMonthBtn.classList.remove('hidden');
+        } else {
+          listTitle.textContent = `📚 ${selectedStatsYear}년 전체 완독 (${displayRecords.length}회)`;
+          resetMonthBtn.classList.add('hidden');
+        }
+
+        displayRecords.sort((a, b) => b.dateStr.localeCompare(a.dateStr));
+
+        if (displayRecords.length === 0) {
+          listContainer.innerHTML = `
+            <div class="bg-cream/60 rounded-2xl p-8 text-center border border-dashed border-[#DFD5C5]">
+              <p class="text-3xl mb-2">🍃</p>
+              <p class="text-xs sm:text-sm text-mocha">해당 기간에 완독한 기록이 아직 없어요.</p>
+            </div>
+          `;
+          return;
+        }
+
+        listContainer.innerHTML = displayRecords
+          .map(({ book, reading, dateStr }) => {
+            return `
+              <div
+                onclick="openBookDetailModal('${book.id}')"
+                class="cursor-pointer bg-cream/60 rounded-2xl p-3.5 border border-[#EDE3D4] shadow-xs flex items-center justify-between gap-3 hover:border-coral transition"
+              >
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-11 h-11 rounded-xl bg-white border border-[#EAE0D0] flex items-center justify-center text-2xl shrink-0">
+                    ${escapeHtml(book.coverEmoji || '📘')}
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-coral-light text-coral-dark">
+                        🏅 ${reading.round}회독 완독
+                      </span>
+                      <span class="text-xs text-mocha">${escapeHtml(dateStr)}</span>
+                    </div>
+                    <h4 class="font-title text-sm sm:text-base text-cocoa truncate mt-0.5">${escapeHtml(book.title)}</h4>
+                    <p class="text-xs text-mocha truncate">${escapeHtml(reading.memo || `${book.author} · ${book.totalPages}쪽`)}</p>
+                  </div>
+                </div>
+                <span class="text-xs font-bold text-mocha shrink-0">${book.totalPages}쪽 ›</span>
+              </div>
+            `;
+          })
+          .join('');
+      }
     }
 
     function onStatsYearChange() {
@@ -2052,7 +2624,7 @@
     }
 
     /********************************************************************
-     * 11. MODAL: ADD / EDIT BOOK
+     * 11. MODAL: ADD / EDIT BOOK (Includes Target Completion Date)
      ********************************************************************/
     function renderEmojiPicker(selectedEmoji) {
       const grid = document.getElementById('emojiPickerGrid');
@@ -2076,16 +2648,19 @@
     }
 
     function openNewBookModal() {
+      const todayStr = getTodayString();
       document.getElementById('bookModalTitle').innerHTML = `<span>🌱</span><span>새로운 책 등록하기</span>`;
       document.getElementById('formBookId').value = '';
       document.getElementById('formTitle').value = '';
       document.getElementById('formAuthor').value = '';
       document.getElementById('formTotalPages').value = '';
-      document.getElementById('formPurchaseDate').value = getTodayString();
-      document.getElementById('formStartDate').value = getTodayString();
+      document.getElementById('formPurchaseDate').value = todayStr;
+      document.getElementById('formStartDate').value = todayStr;
+      document.getElementById('formTargetDate').value = addDaysToDateStr(todayStr, 14);
       document.getElementById('formInitialMemo').value = '';
 
       document.getElementById('initialStartDateWrapper').classList.remove('hidden');
+      document.getElementById('initialTargetDateWrapper').classList.remove('hidden');
       document.getElementById('initialMemoWrapper').classList.remove('hidden');
 
       renderEmojiPicker('📘');
@@ -2109,6 +2684,7 @@
       document.getElementById('formPurchaseDate').value = book.purchaseDate || getTodayString();
 
       document.getElementById('initialStartDateWrapper').classList.add('hidden');
+      document.getElementById('initialTargetDateWrapper').classList.add('hidden');
       document.getElementById('initialMemoWrapper').classList.add('hidden');
 
       renderEmojiPicker(book.coverEmoji || '📘');
@@ -2155,6 +2731,7 @@
         showToast('✨ 도서 정보가 수정되었어요!');
       } else {
         const startDate = document.getElementById('formStartDate').value || getTodayString();
+        const targetDate = document.getElementById('formTargetDate').value || addDaysToDateStr(startDate, 14);
         const memo = document.getElementById('formInitialMemo').value.trim();
         const newBook = {
           id: `book_${Date.now()}`,
@@ -2169,6 +2746,7 @@
               status: 'reading',
               startDate,
               endDate: '',
+              targetDate,
               currentPage: 0,
               memo
             }
@@ -2209,7 +2787,7 @@
 
       const link = document.createElement('a');
       link.href = url;
-      link.download = `my_cozy_reading_backup_${getTodayString()}.json`;
+      link.download = `my_quiet_reading_life_backup_${getTodayString()}.json`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -2241,7 +2819,7 @@
             return;
           }
 
-          books = candidateArray;
+          books = normalizeBooksData(candidateArray);
           saveBooksToStorage();
           renderAll();
           refreshMotivationBanner();
@@ -2267,7 +2845,7 @@
       renderAll();
       refreshMotivationBanner();
       switchTab('reading');
-      showToast('✨ 귀여운 샘플 데이터와 캘린더 띠가 준비되었어요!');
+      showToast('✨ 샘플 데이터(페이스 마커 & 완독 보존 띠)가 준비되었어요!');
     }
 
     function clearAllDataWithConfirm() {
